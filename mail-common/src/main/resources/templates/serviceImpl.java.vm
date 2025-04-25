@@ -1,0 +1,40 @@
+package ${package.ServiceImpl};
+
+import ${package.Service}.${entity}Service;
+import ${package.Mapper}.${entity}Mapper;
+import ${package.Entity}.${entity};
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.stereotype.Service;
+import java.util.List;
+
+/**
+ * ${entity} 服务实现类
+ */
+@Service
+public class ${entity}ServiceImpl extends ServiceImpl<${entity}Mapper, ${entity}> implements ${entity}Service {
+
+    @Override
+    public List<${entity}> selectAll() {
+        return baseMapper.selectList(null);
+    }
+
+    @Override
+    public ${entity} selectById(Long id) {
+        return baseMapper.selectById(id);
+    }
+
+    @Override
+    public void insert(${entity} entity) {
+        baseMapper.insert(entity);
+    }
+
+    @Override
+    public void updateById(${entity} entity) {
+        baseMapper.updateById(entity);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        baseMapper.deleteById(id);
+    }
+}

@@ -1,5 +1,6 @@
 package com.mail.common;
 
+import com.mail.common.generator.CodeGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

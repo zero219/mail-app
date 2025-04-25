@@ -1,0 +1,28 @@
+package ${package.Mapper};
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import ${package.Entity}.${entity};
+import org.apache.ibatis.annotations.Mapper;
+import java.util.List;
+
+/**
+ * ${entity} Mapper 接口
+ */
+@Mapper
+public interface ${entity}Mapper extends BaseMapper<${entity}> {
+
+    // 查询所有
+    List<${entity}> selectAll();
+
+    // 根据ID查询
+    ${entity} selectById(Long id);
+
+    // 插入
+    void insert(${entity} entity);
+
+    // 更新
+    void updateById(${entity} entity);
+
+    // 删除
+    void deleteById(Long id);
+}

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="${package.Mapper}.${entity}Mapper">
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="${package.Entity}.${entity}">
+        SELECT
+            #foreach($field in $table.fields)
+                #if($foreach.hasNext)
+                    ${field.columnName},
+                #else
+                    ${field.columnName}
+                #end
+            #end
+        FROM ${table.name}
+    </select>
+
+    <!-- 根据ID查询 -->
+    <select id="selectById" resultType="${package.Entity}.${entity}" parameterType="Long">
+        SELECT
+            #foreach($field in $table.fields)
+                #if($foreach.hasNext)
+                    ${field.columnName},
+                #else
+                    ${field.columnName}
+                #end
+            #end
+        FROM ${table.name} WHERE id = #{id}
+    </select>
+
+    <!-- 插入 -->
+    <insert id="insert" parameterType="${package.Entity}.${entity}">
+        INSERT INTO ${table.name}
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #foreach($field in $table.fields)
+                ${field.columnName},
+            #end
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            #foreach($field in $table.fields)
+                #{${field.propertyName}},
+            #end
+        </trim>
+    </insert>
+
+    <!-- 更新 -->
+    <update id="updateById" parameterType="${package.Entity}.${entity}">
+        UPDATE ${table.name}
+        <set>
+            #foreach($field in $table.fields)
+                #if($field.isId)
+                    #continue
+                #end
+                <if test="${field.propertyName} != null">${field.columnName} = #{${field.propertyName}},</if>
+            #end
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 删除 -->
+    <delete id="deleteById" parameterType="Long">
+        DELETE FROM ${table.name} WHERE id = #{id}
+    </delete>
+
+</mapper>

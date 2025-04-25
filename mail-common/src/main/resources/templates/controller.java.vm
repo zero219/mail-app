@@ -1,0 +1,45 @@
+package ${package.Controller};
+
+import ${package.Service}.${entity}Service;
+import ${package.Entity}.${entity};
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+/**
+ * ${entity} 控制器
+ */
+@RestController
+@RequestMapping("/${table.name.replace('_', '')}")
+public class ${entity}Controller {
+
+    @Autowired
+    private ${entity}Service ${entity}Service;
+
+    @GetMapping("/all")
+    public List<${entity}> getAll() {
+        return ${entity}Service.selectAll();
+    }
+
+    @GetMapping("/{id}")
+    public ${entity} getById(@PathVariable Long id) {
+        return ${entity}Service.selectById(id);
+    }
+
+    @PostMapping
+    public void create(@RequestBody ${entity} entity) {
+            ${entity}Service.insert(entity);
+    }
+
+    @PutMapping("/{id}")
+    public void update(@PathVariable Long id, @RequestBody ${entity} entity) {
+        entity.setId(id);
+            ${entity}Service.updateById(entity);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+            ${entity}Service.deleteById(id);
+    }
+}

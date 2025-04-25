@@ -1,0 +1,23 @@
+package ${package.Entity};
+
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.TableField;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
+
+@Data
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
+@TableName("${table.name}")
+public class ${entity} {
+
+@TableId
+private Long id;
+
+    #foreach($field in $table.fields)
+    @TableField("${field.columnName}")
+    private ${field.propertyType} ${field.propertyName};  // ${field.comment}
+    #end
+}
