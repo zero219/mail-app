@@ -8,3 +8,10 @@ spring:
             - Query=url,baidu
           filters:
             - AddRequestParameter=foo, bar
+
+        - id: admin_route
+          uri: lb://mail-product
+          predicates:
+            - Path=/api/**
+          filters:
+            - RewritePath=/api/(?<segment>.*), /renren-fast/${segment}
