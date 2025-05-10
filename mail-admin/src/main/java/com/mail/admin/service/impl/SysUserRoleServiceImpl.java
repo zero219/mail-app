@@ -120,8 +120,8 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
      * @return List<SysUserRole>
      */
     @Override
-    public List<SysUserRole> findByUser(long userId) {
-        return sysUserRoleMapper.findByUser(userId);
+    public List<SysUserRole> findBySysUserRole(long userId) {
+        return sysUserRoleMapper.findBySysUserRole(userId);
     }
 
 }

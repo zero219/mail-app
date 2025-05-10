@@ -86,5 +86,5 @@ public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
      * @param userId userId
      * @return List<SysUserRole>
      */
-    List<SysUserRole> findByUser(long userId);
+    List<SysUserRole> findBySysUserRole(long userId);
 }

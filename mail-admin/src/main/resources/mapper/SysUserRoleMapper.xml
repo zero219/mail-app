@@ -119,7 +119,7 @@
     </delete>
 
     <!-- 根据userID查询 -->
-    <select id="findByUser" resultType="com.mail.admin.entity.SysUserRole" parameterType="Long">
+    <select id="findBySysUserRole" resultType="com.mail.admin.entity.SysUserRole" parameterType="Long">
         SELECT
         <include refid="Base_Column_List"/>
         FROM sys_user_role

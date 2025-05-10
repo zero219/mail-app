@@ -74,5 +74,5 @@ public interface SysUserRoleService extends IService<SysUserRole> {
      * @param userId userId
      * @return List<SysUserRole>
      */
-    List<SysUserRole> findByUser(long userId);
+    List<SysUserRole> findBySysUserRole(long userId);
 }

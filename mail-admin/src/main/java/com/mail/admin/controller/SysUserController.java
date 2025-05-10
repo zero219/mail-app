@@ -1,13 +1,16 @@
 package com.mail.admin.controller;
 
 
+import com.mail.admin.entity.SysRole;
 import com.mail.admin.service.SysUserService;
 import com.mail.admin.entity.SysUser;
 import com.mail.admin.query.SysUserQuery;
+import com.mail.admin.vo.RoleVo;
 import com.mail.common.core.PageResult;
 import com.mail.common.core.Result;
 import com.mail.common.enums.ResultCodeEnum;
 import com.mail.common.enums.ResultOperation;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -82,5 +85,13 @@ public class SysUserController {
         return result;
     }
 
+    /**
+     * 查找用户角色信息
+     * @return
+     */
+    @GetMapping("/findRoleInfo")
+    public Result<List<RoleVo>> findRoleInfo() {
+       return sysUserService.findRoleInfo();
+    }
 
 }

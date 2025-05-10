@@ -123,7 +123,7 @@
     </delete>
 
     <!-- 根据roleIds查询 -->
-    <select id="findByRole" resultType="com.mail.admin.entity.SysRoleMenu" parameterType="list">
+    <select id="findBySysRoleMenu" resultType="com.mail.admin.entity.SysRoleMenu" parameterType="list">
         SELECT
         <include refid="Base_Column_List"/>
         FROM sys_role_menu
@@ -133,5 +133,12 @@
         </foreach>
     </select>
 
+    <!-- 根据roleId查询 -->
+    <select id="findByRoleId" resultType="com.mail.admin.entity.SysRoleMenu" parameterType="Long">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM sys_role_menu
+        WHERE role_id = #{roleId}
+    </select>
 
 </mapper>

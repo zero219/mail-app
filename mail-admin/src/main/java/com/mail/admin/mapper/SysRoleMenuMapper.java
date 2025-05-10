@@ -85,6 +85,14 @@ public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu> {
      * @param roleIds roleIds
      * @return List<SysRoleMenu>
      */
-    List<SysRoleMenu> findByRole(@Param("roleIds") List<Long> roleIds);
+    List<SysRoleMenu> findBySysRoleMenu(@Param("roleIds") List<Long> roleIds);
+
+    /**
+     * 根据roleId查询
+     *
+     * @param roleId roleIds
+     * @return List<SysRoleMenu>
+     */
+    List<SysRoleMenu> findByRoleId(@Param("roleId") long roleId);
 
 }

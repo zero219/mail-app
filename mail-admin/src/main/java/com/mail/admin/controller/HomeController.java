@@ -37,9 +37,9 @@ public class HomeController {
 //        return
 //    }
 
-    @GetMapping(value = "/menuData")
-    public Result<List<MenuDataVo>> menuData() {
-        return sysUserService.menuData();
+    @GetMapping(value = "/menuInfo")
+    public Result<List<MenuDataVo>> menuInfo() {
+        return sysUserService.menuInfo();
     }
 
 }

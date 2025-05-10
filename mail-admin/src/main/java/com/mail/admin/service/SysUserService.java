@@ -1,11 +1,13 @@
 package com.mail.admin.service;
 
 import com.mail.admin.dto.LoginDto;
+import com.mail.admin.entity.SysRole;
 import com.mail.admin.entity.SysUser;
 import com.mail.admin.query.SysUserQuery;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mail.admin.vo.LoginVo;
 import com.mail.admin.vo.MenuDataVo;
+import com.mail.admin.vo.RoleVo;
 import com.mail.common.core.PageResult;
 import com.mail.common.core.Result;
 
@@ -68,5 +70,11 @@ public interface SysUserService extends IService<SysUser> {
      * 查询用户菜单
      * @return MenuDataVo
      */
-    Result<List<MenuDataVo>> menuData();
+    Result<List<MenuDataVo>> menuInfo();
+
+    /**
+     *  查询角色信息
+     * @return
+     */
+    Result<List<RoleVo>> findRoleInfo();
 }

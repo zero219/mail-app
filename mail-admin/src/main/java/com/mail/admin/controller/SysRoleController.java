@@ -4,15 +4,18 @@ package com.mail.admin.controller;
 import com.mail.admin.service.SysRoleService;
 import com.mail.admin.entity.SysRole;
 import com.mail.admin.query.SysRoleQuery;
+import com.mail.admin.vo.RoleMenuVo;
 import com.mail.common.core.PageResult;
 import com.mail.common.core.Result;
 import com.mail.common.enums.ResultCodeEnum;
 import com.mail.common.enums.ResultOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
-
-
 
 
 /**
@@ -29,6 +32,7 @@ public class SysRoleController {
     /**
      * 分页查询接口
      * 访问路径：/findByPage
+     *
      * @param query 查询条件，包含分页信息
      * @return 返回分页结果，包含当前页的数据和分页信息
      */
@@ -39,6 +43,7 @@ public class SysRoleController {
 
     /**
      * 创建一条数据
+     *
      * @param entity SysRole 实体对象
      * @return 插入的行数
      */
@@ -54,6 +59,7 @@ public class SysRoleController {
 
     /**
      * 更新一条数据
+     *
      * @param entity SysRole 实体对象
      * @return 更新的行数
      */
@@ -69,6 +75,7 @@ public class SysRoleController {
 
     /**
      * 删除一条数据
+     *
      * @param id 主键ID
      * @return 删除的行数
      */
@@ -80,5 +87,16 @@ public class SysRoleController {
             return new Result<>(ResultCodeEnum.SUCCESS.getCode(), ResultOperation.SUCCESS.getMsg(), null, true);
         }
         return result;
+    }
+
+    /**
+     * 查找角色关联的菜单
+     *
+     * @param roleId
+     * @return
+     */
+    @GetMapping("roleMenuInfo")
+    public Result<List<RoleMenuVo>> roleMenuInfo(@Validated @NotNull(message = "roleId不能为空") long roleId) {
+        return sysRoleService.roleMenuInfo(roleId);
     }
 }

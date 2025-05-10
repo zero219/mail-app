@@ -20,7 +20,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        String[] urls = {"/api/login", "/api/generateValidateCode", "/api/sysUser/findByPage", "/api/menuData"};
+        String[] urls = {"/api/login", "/api/generateValidateCode", "/api/sysUser/findByPage", "/api/menuInfo"};
         registry.addInterceptor(authInterceptor).addPathPatterns("/**").excludePathPatterns(urls);
     }
 
