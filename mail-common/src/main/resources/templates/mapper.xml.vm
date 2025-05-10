@@ -5,64 +5,97 @@
 
 <mapper namespace="${package.Mapper}.${entity}Mapper">
 
-    <!-- 查询所有 -->
-    <select id="selectAll" resultType="${package.Entity}.${entity}">
+    <!-- 公共字段提取 -->
+    <sql id="Base_Column_List">
+        #foreach($field in $table.fields)
+            ${field.columnName}#if($foreach.hasNext),#end
+        #end
+    </sql>
+
+    <!-- 查询符合条件的总记录数 -->
+    <select id="findCount" resultType="int">
+        SELECT COUNT(*)
+        FROM ${table.name}
+        <where>
+            <!-- 如果查询条件中有某个字段，进行过滤 -->
+            <if test="id != null">
+                AND $table.fields.get(0).propertyName = #{id}
+            </if>
+        </where>
+    </select>
+
+    <!-- 根据分页条件查询当前页的数据 -->
+    <select id="findPageList" resultType="${entity}">
         SELECT
-            #foreach($field in $table.fields)
-                #if($foreach.hasNext)
-                    ${field.columnName},
-                #else
-                    ${field.columnName}
-                #end
-            #end
+        <include refid="Base_Column_List"/>
+        FROM ${table.name}
+        <where>
+            <!-- 如果查询条件中有某个字段，进行过滤 -->
+            <if test="query.id != null">
+                AND $table.fields.get(0).propertyName = #{query.id}
+            </if>
+        </where>
+        <!-- 使用 LIMIT 进行分页查询 -->
+        LIMIT #{offset}, #{limit}
+    </select>
+
+
+    <!-- 查询所有 -->
+    <select id="findAll" resultType="${package.Entity}.${entity}">
+        SELECT
+        <include refid="Base_Column_List"/>
         FROM ${table.name}
     </select>
 
     <!-- 根据ID查询 -->
-    <select id="selectById" resultType="${package.Entity}.${entity}" parameterType="Long">
+    <select id="findById" resultType="${package.Entity}.${entity}" parameterType="Long">
         SELECT
-            #foreach($field in $table.fields)
-                #if($foreach.hasNext)
-                    ${field.columnName},
-                #else
-                    ${field.columnName}
-                #end
-            #end
-        FROM ${table.name} WHERE id = #{id}
+        <include refid="Base_Column_List"/>
+        FROM ${table.name}
+        WHERE $table.fields.get(0).propertyName = #{id}
+    </select>
+
+    <!-- 批量ID查询 (根据多个ID查询列表) -->
+    <select id="findBatchIds" resultType="${package.Entity}.${entity}">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM ${table.name}
+        WHERE ${table.fields.get(0).propertyName} IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
     </select>
 
     <!-- 插入 -->
-    <insert id="insert" parameterType="${package.Entity}.${entity}">
+    <insert id="add${entity}" parameterType="${package.Entity}.${entity}">
         INSERT INTO ${table.name}
         <trim prefix="(" suffix=")" suffixOverrides=",">
             #foreach($field in $table.fields)
-                ${field.columnName},
+                ${field.columnName}#if($foreach.hasNext),#end
             #end
         </trim>
         <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
             #foreach($field in $table.fields)
-                #{${field.propertyName}},
+                ${field.columnName}#if($foreach.hasNext),#end
             #end
         </trim>
     </insert>
 
     <!-- 更新 -->
-    <update id="updateById" parameterType="${package.Entity}.${entity}">
+    <update id="update${entity}" parameterType="${package.Entity}.${entity}">
         UPDATE ${table.name}
         <set>
             #foreach($field in $table.fields)
-                #if($field.isId)
-                    #continue
-                #end
-                <if test="${field.propertyName} != null">${field.columnName} = #{${field.propertyName}},</if>
+                <if test="${field.propertyName} != null">${field.columnName} = #{${field.propertyName}}#if($foreach.hasNext),#end</if>
             #end
         </set>
-        WHERE id = #{id}
+        WHERE $table.fields.get(0).propertyName = #{id}
     </update>
 
     <!-- 删除 -->
-    <delete id="deleteById" parameterType="Long">
-        DELETE FROM ${table.name} WHERE id = #{id}
+    <delete id="del${entity}" parameterType="Long">
+        DELETE FROM ${table.name}
+        WHERE $table.fields.get(0).propertyName = #{id}
     </delete>
 
 </mapper>

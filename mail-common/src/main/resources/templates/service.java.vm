@@ -1,25 +1,61 @@
+#set($packageName = ${package.Entity.replace(".entity", "")})
 package ${package.Service};
 
 import ${package.Entity}.${entity};
+import ${packageName}.query.${entity}Query;
+import com.baomidou.mybatisplus.extension.service.IService;
+
 import java.util.List;
 
 /**
- * ${entity} 服务接口
+ * ${entity}Service 接口
+ * 定义了对 ${entity} 实体的基本操作，如增、删、改、查等服务方法
  */
-public interface ${entity}Service {
+public interface ${entity}Service extends IService<${entity}> {
 
-    // 查询所有
-    List<${entity}> selectAll();
+    /**
+     * 根据查询条件进行分页查询
+     * @param query 查询条件，包含分页信息
+     * @return 返回分页结果，包含当前页的数据和分页信息
+     */
+    PageResult<List<${entity}>> findByPage(${entity}Query query);
 
-    // 根据ID查询
-    ${entity} selectById(Long id);
+    /**
+     * 查询所有数据
+     * @return ${entity} 实体列表
+     */
+    List<${entity}> findAll();
+    /**
+     * 根据ID查询数据
+     * @param id 主键ID
+     * @return ${entity} 实体对象
+     */
+     ${entity} findById(Long id);
 
-    // 插入
-    void insert(${entity} entity);
+    /**
+     * 根据IDS查询数据
+     * @param ids 主键ID
+     * @return ${entity} 实体对象
+     */
+    List<${entity}> findBatchIds(List<Long> ids);
+    /**
+     * 插入一条数据
+     * @param entity ${entity} 实体对象
+     * @return 插入的行数
+     */
+    int add${entity}(${entity} entity);
 
-    // 更新
-    void updateById(${entity} entity);
+    /**
+     * 根据ID更新数据
+     * @param entity ${entity} 实体对象
+     * @return 更新的行数
+     */
+    int update${entity}(${entity} entity);
 
-    // 删除
-    void deleteById(Long id);
+    /**
+     * 根据ID删除数据
+     * @param id 主键ID
+     * @return 删除的行数
+     */
+    int del${entity}(Long id);
 }

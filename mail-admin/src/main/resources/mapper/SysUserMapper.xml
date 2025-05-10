@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mail.admin.mapper.SysUserMapper">
+
+    <!-- 公共字段提取 -->
+    <sql id="Base_Column_List">
+            id,
+            user_name,
+            pass_word,
+            user_alias,
+            phone,
+            avatar,
+            description,
+            is_enabled,
+            created_by,
+            create_time,
+            updated_by,
+            update_time,
+            is_deleted
+    </sql>
+
+    <!-- 查询符合条件的总记录数 -->
+    <select id="findCount" resultType="int">
+        SELECT COUNT(*)
+        FROM sys_user
+        <where>
+            <!-- 如果查询条件中有某个字段，进行过滤 -->
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <!-- 根据分页条件查询当前页的数据 -->
+    <select id="findPageList" resultType="SysUser">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM sys_user
+        <where>
+            <!-- 如果查询条件中有某个字段，进行过滤 -->
+            <if test="query.id != null">
+                AND id = #{query.id}
+            </if>
+        </where>
+        <!-- 使用 LIMIT 进行分页查询 -->
+        LIMIT #{offset}, #{limit}
+    </select>
+
+
+    <!-- 查询所有 -->
+    <select id="findAll" resultType="com.mail.admin.entity.SysUser">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM sys_user
+    </select>
+
+    <!-- 根据ID查询 -->
+    <select id="findById" resultType="com.mail.admin.entity.SysUser" parameterType="Long">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM sys_user
+        WHERE id = #{id}
+    </select>
+
+    <!-- 批量ID查询 (根据多个ID查询列表) -->
+    <select id="findBatchIds" resultType="com.mail.admin.entity.SysUser">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM sys_user
+        WHERE id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <!-- 插入 -->
+    <insert id="addSysUser" parameterType="com.mail.admin.entity.SysUser">
+        INSERT INTO sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                id,
+                user_name,
+                pass_word,
+                user_alias,
+                phone,
+                avatar,
+                description,
+                is_enabled,
+                created_by,
+                create_time,
+                updated_by,
+                update_time,
+                is_deleted
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+                id,
+                user_name,
+                pass_word,
+                user_alias,
+                phone,
+                avatar,
+                description,
+                is_enabled,
+                created_by,
+                create_time,
+                updated_by,
+                update_time,
+                is_deleted
+        </trim>
+    </insert>
+
+    <!-- 更新 -->
+    <update id="updateSysUser" parameterType="com.mail.admin.entity.SysUser">
+        UPDATE sys_user
+        <set>
+                <if test="id != null">id = #{id},</if>
+                <if test="userName != null">user_name = #{userName},</if>
+                <if test="passWord != null">pass_word = #{passWord},</if>
+                <if test="userAlias != null">user_alias = #{userAlias},</if>
+                <if test="phone != null">phone = #{phone},</if>
+                <if test="avatar != null">avatar = #{avatar},</if>
+                <if test="description != null">description = #{description},</if>
+                <if test="isEnabled != null">is_enabled = #{isEnabled},</if>
+                <if test="createdBy != null">created_by = #{createdBy},</if>
+                <if test="createTime != null">create_time = #{createTime},</if>
+                <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+                <if test="updateTime != null">update_time = #{updateTime},</if>
+                <if test="isDeleted != null">is_deleted = #{isDeleted}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 删除 -->
+    <delete id="delSysUser" parameterType="Long">
+        DELETE FROM sys_user
+        WHERE id = #{id}
+    </delete>
+
+    <!-- 查询用户 -->
+    <select id="findUserInfo" resultType="com.mail.admin.entity.SysUser">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM sys_user
+        WHERE user_name = #{userName}
+        and is_deleted = 0
+    </select>
+</mapper>

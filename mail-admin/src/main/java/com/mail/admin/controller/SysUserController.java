@@ -1,36 +1,30 @@
-#set($packageName = ${package.Entity.replace(".entity", "")})
-package ${package.Controller};
+package com.mail.admin.controller;
 
 
-import ${package.Service}.${entity}Service;
-import ${package.Entity}.${entity};
-import ${packageName}.query.${entity}Query;
+import com.mail.admin.service.SysUserService;
+import com.mail.admin.entity.SysUser;
+import com.mail.admin.query.SysUserQuery;
+import com.mail.common.core.PageResult;
+import com.mail.common.core.Result;
+import com.mail.common.enums.ResultCodeEnum;
+import com.mail.common.enums.ResultOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
-#set($tableName = $table.name)
-#set($words = $tableName.split("_"))
-#set($finalTableName = $words.get(0).toLowerCase())
 
-#foreach($word in $words)
-    #if($foreach.index > 0)
-        #set($capitalized = $word.substring(0, 1).toUpperCase() + $word.substring(1).toLowerCase())
-        #set($finalTableName = "${finalTableName}${capitalized}")
-    #end
-#end
 
 /**
- * ${entity}Controller 类
+ * SysUserController 类
  * 提供对外的增、删、改、查的接口
  */
 @RestController
-@RequestMapping("/api/${finalTableName}")
-public class ${entity}Controller {
+@RequestMapping("/api/sysUser")
+public class SysUserController {
 
     @Autowired
-    private ${entity}Service ${entity.substring(0,1).toLowerCase()}${entity.substring(1)}Service;
+    private SysUserService sysUserService;
 
     /**
      * 分页查询接口
@@ -39,19 +33,19 @@ public class ${entity}Controller {
      * @return 返回分页结果，包含当前页的数据和分页信息
      */
     @GetMapping("/findByPage")
-    public PageResult<List<${entity}>> findByPage(${entity}Query query) {
-        return ${entity.substring(0,1).toLowerCase()}${entity.substring(1)}Service.findByPage(query);
+    public PageResult<List<SysUser>> findByPage(SysUserQuery query) {
+        return sysUserService.findByPage(query);
     }
 
     /**
      * 创建一条数据
-     * @param entity ${entity} 实体对象
+     * @param entity SysUser 实体对象
      * @return 插入的行数
      */
-    @PostMapping("/add${entity}")
-    public Result<Integer> add${entity}(@RequestBody ${entity} entity) {
+    @PostMapping("/addSysUser")
+    public Result<Integer> addSysUser(@RequestBody SysUser entity) {
         Result<Integer> result = new Result<>(ResultCodeEnum.SUCCESS.getCode(), ResultOperation.FAIL.getMsg(), null, false);
-        int res = ${entity.substring(0,1).toLowerCase()}${entity.substring(1)}Service.add${entity}(entity);
+        int res = sysUserService.addSysUser(entity);
         if (res > 0) {
             return new Result<>(ResultCodeEnum.SUCCESS.getCode(), ResultOperation.SUCCESS.getMsg(), null, true);
         }
@@ -60,13 +54,13 @@ public class ${entity}Controller {
 
     /**
      * 更新一条数据
-     * @param entity ${entity} 实体对象
+     * @param entity SysUser 实体对象
      * @return 更新的行数
      */
-    @PutMapping("/update${entity}")
-    public Result<Integer> update${entity}(@RequestBody ${entity} entity) {
+    @PutMapping("/updateSysUser")
+    public Result<Integer> updateSysUser(@RequestBody SysUser entity) {
         Result<Integer> result = new Result<>(ResultCodeEnum.SUCCESS.getCode(), ResultOperation.FAIL.getMsg(), null, false);
-        int res = ${entity.substring(0,1).toLowerCase()}${entity.substring(1)}Service.update${entity}(entity);
+        int res = sysUserService.updateSysUser(entity);
         if (res > 0) {
             return new Result<>(ResultCodeEnum.SUCCESS.getCode(), ResultOperation.SUCCESS.getMsg(), null, true);
         }
@@ -79,12 +73,14 @@ public class ${entity}Controller {
      * @return 删除的行数
      */
     @DeleteMapping("/del/{id}")
-    public Result<Integer> del${entity}(@PathVariable Long id) {
+    public Result<Integer> delSysUser(@PathVariable Long id) {
         Result<Integer> result = new Result<>(ResultCodeEnum.SUCCESS.getCode(), ResultOperation.FAIL.getMsg(), null, false);
-        int res = ${entity.substring(0,1).toLowerCase()}${entity.substring(1)}Service.del${entity}(id);
+        int res = sysUserService.delSysUser(id);
         if (res > 0) {
             return new Result<>(ResultCodeEnum.SUCCESS.getCode(), ResultOperation.SUCCESS.getMsg(), null, true);
         }
         return result;
     }
+
+
 }

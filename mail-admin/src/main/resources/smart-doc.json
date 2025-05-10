@@ -1,0 +1,12 @@
+{
+  "outPath": "target/doc",
+  "projectName": "后台项目",
+  "packageFilters": "com.mail.admin.controller.*",
+  "openUrl": "http://localhost:7700/api",
+  "appToken": "7d58c03fee554abc929b4cb2ad76feeb",
+  "debugEnvName":"本地环境",
+  "debugEnvUrl":"http://127.0.0.1:8089",
+  "tornaDebug": true,
+  "replace": true,
+  "showValidation": false
+}

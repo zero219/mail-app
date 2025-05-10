@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mail.admin.mapper.SysRoleMenuMapper">
+
+    <!-- 公共字段提取 -->
+    <sql id="Base_Column_List">
+            id,
+            role_id,
+            menu_id,
+            created_by,
+            create_time,
+            updated_by,
+            update_time,
+            is_deleted,
+            is_half
+    </sql>
+
+    <!-- 查询符合条件的总记录数 -->
+    <select id="findCount" resultType="int">
+        SELECT COUNT(*)
+        FROM sys_role_menu
+        <where>
+            <!-- 如果查询条件中有某个字段，进行过滤 -->
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <!-- 根据分页条件查询当前页的数据 -->
+    <select id="findPageList" resultType="SysRoleMenu">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM sys_role_menu
+        <where>
+            <!-- 如果查询条件中有某个字段，进行过滤 -->
+            <if test="query.id != null">
+                AND id = #{query.id}
+            </if>
+        </where>
+        <!-- 使用 LIMIT 进行分页查询 -->
+        LIMIT #{offset}, #{limit}
+    </select>
+
+
+    <!-- 查询所有 -->
+    <select id="findAll" resultType="com.mail.admin.entity.SysRoleMenu">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM sys_role_menu
+    </select>
+
+    <!-- 根据ID查询 -->
+    <select id="findById" resultType="com.mail.admin.entity.SysRoleMenu" parameterType="Long">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM sys_role_menu
+        WHERE id = #{id}
+    </select>
+
+    <!-- 批量ID查询 (根据多个ID查询列表) -->
+    <select id="findBatchIds" resultType="com.mail.admin.entity.SysRoleMenu">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM sys_role_menu
+        WHERE id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <!-- 插入 -->
+    <insert id="addSysRoleMenu" parameterType="com.mail.admin.entity.SysRoleMenu">
+        INSERT INTO sys_role_menu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                id,
+                role_id,
+                menu_id,
+                created_by,
+                create_time,
+                updated_by,
+                update_time,
+                is_deleted,
+                is_half
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+                id,
+                role_id,
+                menu_id,
+                created_by,
+                create_time,
+                updated_by,
+                update_time,
+                is_deleted,
+                is_half
+        </trim>
+    </insert>
+
+    <!-- 更新 -->
+    <update id="updateSysRoleMenu" parameterType="com.mail.admin.entity.SysRoleMenu">
+        UPDATE sys_role_menu
+        <set>
+                <if test="id != null">id = #{id},</if>
+                <if test="roleId != null">role_id = #{roleId},</if>
+                <if test="menuId != null">menu_id = #{menuId},</if>
+                <if test="createdBy != null">created_by = #{createdBy},</if>
+                <if test="createTime != null">create_time = #{createTime},</if>
+                <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+                <if test="updateTime != null">update_time = #{updateTime},</if>
+                <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+                <if test="isHalf != null">is_half = #{isHalf}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 删除 -->
+    <delete id="delSysRoleMenu" parameterType="Long">
+        DELETE FROM sys_role_menu
+        WHERE id = #{id}
+    </delete>
+
+    <!-- 根据roleIds查询 -->
+    <select id="findByRole" resultType="com.mail.admin.entity.SysRoleMenu" parameterType="list">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM sys_role_menu
+        WHERE role_id in
+        <foreach collection="roleIds" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </select>
+
+
+</mapper>

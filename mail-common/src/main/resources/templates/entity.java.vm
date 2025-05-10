@@ -1,23 +1,34 @@
 package ${package.Entity};
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
 @TableName("${table.name}")
-public class ${entity} {
+public class ${entity} implements Serializable{
+    private static final long serialVersionUID = 1L;
 
-@TableId
-private Long id;
-
-    #foreach($field in $table.fields)
+#foreach($field in $table.fields)
+    #if($field.keyFlag)
+    /**
+     * 主键：${field.comment}
+     */
+    @TableId(value = "${field.columnName}", type = IdType.AUTO)
+    private ${field.propertyType} ${field.propertyName};
+    #else
+    /**
+     * ${field.comment}
+     */
     @TableField("${field.columnName}")
-    private ${field.propertyType} ${field.propertyName};  // ${field.comment}
+    private ${field.propertyType} ${field.propertyName};
     #end
+#end
+
 }
+
