@@ -19,6 +19,8 @@
     <modules>
         <module>mail-common</module>
         <module>mail-gateway</module>
+        <module>mail-admin</module>
         <module>mail-coupon</module>
+        <module>mail-product</module>
     </modules>
 </project>
